@@ -1,0 +1,7 @@
+version = 1
+requires-python = ">=3.7"
+
+[[package]]
+name = "readstat-rs-dist"
+version = "0.13.0"
+source = { editable = "." }

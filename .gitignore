@@ -1,0 +1,6 @@
+readstat_rs_dist/bin/*
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
