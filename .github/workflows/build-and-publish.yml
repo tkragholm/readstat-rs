@@ -1,0 +1,94 @@
+name: Build and Package
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x86_64
+            binary_name: readstat-linux-x86_64
+          - os: windows-latest
+            target: windows-x86_64
+            binary_name: readstat-windows-x86_64.exe
+          - os: macos-latest
+            target: macos-x86_64
+            binary_name: readstat-macos-x86_64
+
+    runs-on: \${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang unixodbc-dev
+
+      - name: Install LLVM and Clang (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          choco install llvm
+          echo "LIBCLANG_PATH=C:\\Program Files\\LLVM\\lib" >> \$GITHUB_ENV
+
+      - name: Install developer tools (macOS)
+        if: runner.os == 'macOS'
+        run: xcode-select --install || true
+
+      - name: Build Rust binary
+        run: cargo build --release
+
+      - name: Copy binary
+        run: |
+          mkdir -p readstat_dist/bin
+          if [ "\${{ runner.os }}" == "Windows" ]; then
+            cp target/release/readstat.exe "readstat_dist/bin/\${{ matrix.binary_name }}"
+          else
+            cp target/release/readstat "readstat_dist/bin/\${{ matrix.binary_name }}"
+            chmod +x "readstat_dist/bin/\${{ matrix.binary_name }}"
+          fi
+        shell: bash
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: binary-\${{ matrix.target }}
+          path: readstat_dist/bin/
+
+  package:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Download all binaries
+        uses: actions/download-artifact@v2
+        with:
+          path: readstat_dist/bin/
+
+      - name: Prepare binaries
+        run: |
+          cd readstat_dist/bin
+          find . -type f -name "readstat-*" -exec chmod +x {} \;
+
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: \${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: \${{ secrets.PYPI_PASSWORD }}
+        run: |
+          python -m pip install build twine
+          python -m build
+          python -m twine upload dist/*
