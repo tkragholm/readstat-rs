@@ -1,4 +1,4 @@
-readstat_rs_dist/bin/*
+readstat_rs/bin/*
 dist/
 build/
 *.egg-info/

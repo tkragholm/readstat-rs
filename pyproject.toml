@@ -3,13 +3,13 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "readstat_rs_dist"
+name = "readstat-rs"
 version = "0.13.0" # Match this with your __version__.py
 description = "ReadStat binary distribution for working with SAS7BDAT files"
 readme = "README.md"
 requires-python = ">=3.7"
-authors = [{ name = "Your Name", email = "your.email@example.com" }]
-license = { text = "MIT" }
+authors = [{ name = "Tobias Kragholm", email = "tkragholm@gmail.com" }]
+license = { file = "LICENSE" }
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -22,14 +22,20 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Rust",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS :: MacOS X",
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/readstat-rs-dist"
-"Bug Tracker" = "https://github.com/yourusername/readstat-rs-dist/issues"
+"Homepage" = "https://github.com/curtisalexander/readstat-rs"
+"Repository" = "https://github.com/curtisalexander/readstat-rs"
+"Distribution Repository" = "https://github.com/tkragholm/readstat-rs"
+"Distribution Issues" = "https://github.com/tkragholm/readstat-rs/issues"
+"Documentation" = "https://github.com/curtisalexander/readstat-rs#readme"
 
 [project.scripts]
-readstat = "readstat_rs_dist.entry_point:main"
+readstat = "readstat_rs.entry_point:main"
 
 [tool.setuptools]
 packages = ["readstat_rs_dist", "readstat_rs_dist.bin"]

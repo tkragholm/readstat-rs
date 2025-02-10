@@ -69,7 +69,7 @@ def download_binaries():
             f"Available assets: {[asset['name'] for asset in release_data.get('assets', [])]}"
         )
 
-        bin_dir = Path(__file__).parent / "readstat_rs_dist" / "bin"
+        bin_dir = Path(__file__).parent / "readstat_rs" / "bin"
         print(f"Creating directory: {bin_dir}")
         bin_dir.mkdir(parents=True, exist_ok=True)
 

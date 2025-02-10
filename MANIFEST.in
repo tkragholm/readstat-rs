@@ -1,1 +1,2 @@
-include readstat_rs_dist/bin/*
+include readstat_rs/bin/*
+include LICENSE
