@@ -38,7 +38,7 @@ classifiers = [
 readstat = "readstat_rs.entry_point:main"
 
 [tool.setuptools]
-packages = ["readstat_rs_dist", "readstat_rs_dist.bin"]
+packages = ["readstat_rs", "readstat_rs.bin"]
 include-package-data = true
 
 [tool.setuptools.package-data]
