@@ -30,3 +30,10 @@ classifiers = [
 
 [project.scripts]
 readstat = "readstat_rs_dist.entry_point:main"
+
+[tool.setuptools]
+packages = ["readstat_rs_dist", "readstat_rs_dist.bin"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"readstat_rs_dist" = ["bin/*"]

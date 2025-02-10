@@ -11,14 +11,14 @@ with open(here / "readstat_rs_dist" / "__version__.py", encoding="utf-8") as f:
 setup(
     name="readstat_rs_dist",
     version=about["__version__"],
-    packages=find_packages(),
+    packages=find_packages(include=["readstat_rs_dist", "readstat_rs_dist.*"]),
     package_data={
-        'readstat_rs_dist': ['bin/*'],
+        "readstat_rs_dist": ["bin/*"],
     },
     include_package_data=True,
     entry_points={
-        'console_scripts': [
-            'readstat=readstat_rs_dist.entry_point:main',
+        "console_scripts": [
+            "readstat=readstat_rs_dist.entry_point:main",
         ],
     },
     python_requires=">=3.7",
